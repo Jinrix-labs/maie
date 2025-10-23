@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import ChatMessage from './components/ChatMessage';
 import TypingIndicator from './components/TypingIndicator';
-import Blob from './components/Blob';
 
 function App() {
   const [messages, setMessages] = useState([
