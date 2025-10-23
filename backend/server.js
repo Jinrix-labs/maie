@@ -1,10 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
-require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -19,7 +17,7 @@ app.post('/api/chat', async (req, res) => {
         if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_api_key_here') {
             return res.status(500).json({
                 error: 'API key not configured',
-                details: 'Please set ANTHROPIC_API_KEY in backend/.env file'
+                details: 'Please set ANTHROPIC_API_KEY in Vercel environment variables'
             });
         }
 
@@ -60,6 +58,5 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Proxy server running on port ${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
