@@ -1,0 +1,127 @@
+/* Header */
+.app-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 50px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Blob stack container */
+.blob-stack {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+/* Glow behind */
+.blob-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(rgba(162, 132, 255, 0.35), transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Blob images */
+.blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    height: 240px;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 1;
+    animation: float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.15)) drop-shadow(0 8px 20px rgba(102, 126, 234, 0.3));
+}
+
+.blink {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+/* Floating animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translateY(-10px) scale(1.05);
+    }
+}
+
+/* Hover effects */
+.blob-stack:hover .blob {
+    animation: float 2.5s ease-in-out infinite, wiggle 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0 12px 30px rgba(102, 126, 234, 0.4));
+}
+
+/* Wiggle animation */
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotate(2deg);
+    }
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+    .blob-stack {
+        width: 200px;
+        height: 200px;
+    }
+
+    .blob-glow {
+        width: 240px;
+        height: 240px;
+    }
+
+    .blob {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .blob-stack {
+        width: 160px;
+        height: 160px;
+    }
+
+    .blob-glow {
+        width: 200px;
+        height: 200px;
+    }
+
+    .blob {
+        width: 160px;
+        height: 160px;
+    }
+}
