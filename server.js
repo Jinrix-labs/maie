@@ -13,7 +13,16 @@ app.use(express.json());
 // Proxy endpoint for Anthropic API
 app.post('/api/chat', async (req, res) => {
     try {
-        const { messages, system } = req.body;
+        const { messages, system, model } = req.body;
+
+        // Format system prompt with caching for ~90% cost savings
+        const systemWithCache = [
+            {
+                type: 'text',
+                text: system || '',
+                cache_control: { type: 'ephemeral' }
+            }
+        ];
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
@@ -23,10 +32,10 @@ app.post('/api/chat', async (req, res) => {
                 'anthropic-version': '2023-06-01'
             },
             body: JSON.stringify({
-                model: 'claude-3-haiku-20240307',
-                max_tokens: 1000,
+                model: model || 'claude-3-haiku-20240307', // Use provided model or fallback to default
+                max_tokens: 300, // Reduced to keep responses concise and costs down
                 messages: messages,
-                system: system
+                system: systemWithCache // Now an array with cache_control for cost savings
             })
         });
 
