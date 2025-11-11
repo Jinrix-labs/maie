@@ -74,7 +74,7 @@ app.post('/api/chat', async (req, res) => {
             },
             body: JSON.stringify({
                 model: model || 'claude-3-haiku-20240307', // Use provided model or fallback to default
-                max_tokens: 300, // Reduced to keep responses concise and costs down
+                max_tokens: 400, // MVP limit: sweet spot for thoughtful 2-3 paragraph responses
                 messages: messages,
                 system: systemWithCache // Now an array with cache_control for cost savings
             })

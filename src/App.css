@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f5e6ff 0%, #e0c3fc 50%, #d4a5f9 100%);
   background-attachment: fixed;
   min-height: 100vh;
   overflow-x: hidden;
@@ -23,9 +23,11 @@ body {
   min-height: 100vh;
   max-width: 900px;
   margin: 0 auto;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 10px 40px rgba(138, 43, 226, 0.15);
+  background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
+  border-radius: 24px;
   animation: slideIn 0.6s ease-out;
+  overflow: hidden;
 }
 
 @keyframes slideIn {
@@ -49,113 +51,67 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 20px;
+  padding: 30px 20px;
   min-height: 280px;
   /* or whatever size your blob needs */
-  background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 245, 255, 0.9) 100%);
+  box-shadow: 0 4px 30px rgba(138, 43, 226, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(138, 43, 226, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add decorative circles in header */
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: -30px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(162, 132, 255, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .header h1 {
   color: #2d3748;
-  font-size: 32px;
-  margin-bottom: 6px;
+  font-size: 36px;
+  margin-bottom: 8px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #7c3aed 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+  z-index: 1;
 }
 
 .tagline {
-  color: #718096;
-  font-size: 15px;
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Blob stack container */
-.blob-stack {
+  color: #8b5cf6;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.8;
   position: relative;
-  width: 260px;
-  height: 260px;
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-
-/* Glow behind */
-.blob-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(rgba(162, 132, 255, 0.35), transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
-}
-
-/* Blob images */
-.blob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 260px;
-  height: 260px;
   z-index: 1;
-  animation: float 2.5s ease-in-out infinite;
-  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.15)) drop-shadow(0 8px 20px rgba(102, 126, 234, 0.3));
-  transition: opacity 0.2s ease-in-out;
 }
 
-.blink {
-  opacity: 0;
-}
-
-.fade-in {
-  opacity: 1;
-}
-
-.fade-out {
-  opacity: 0;
-}
-
-/* Floating animation */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translate(-50%, -50%) translateY(0) scale(1);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) translateY(-10px) scale(1.05);
-  }
-}
-
-/* Hover effects */
-.blob-stack:hover .blob {
-  animation: float 2.5s ease-in-out infinite, wiggle 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0 12px 30px rgba(102, 126, 234, 0.4));
-}
-
-/* Wiggle animation */
-@keyframes wiggle {
-
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) rotate(2deg);
-  }
-}
+/* Blob styles are now in BlobSVG.css component */
 
 /* --- Chat Section --- */
 .chat-section {
@@ -189,24 +145,24 @@ body {
 }
 
 .messages::-webkit-scrollbar-thumb {
-  background: rgba(102, 126, 234, 0.3);
+  background: rgba(168, 85, 247, 0.3);
   border-radius: 10px;
   transition: background 0.2s;
 }
 
 .messages::-webkit-scrollbar-thumb:hover {
-  background: rgba(102, 126, 234, 0.5);
+  background: rgba(168, 85, 247, 0.5);
 }
 
 /* Input bar */
 .chat-input {
   display: flex;
   gap: 12px;
-  padding: 20px 24px;
-  background: rgba(255, 255, 255, 0.98);
-  border-top: 1px solid rgba(102, 126, 234, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 245, 255, 0.9) 100%);
+  border-top: 2px solid rgba(168, 85, 247, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -8px 30px rgba(138, 43, 226, 0.08);
 }
 
 .input-wrapper {
@@ -216,20 +172,22 @@ body {
 
 .message-input {
   width: 100%;
-  padding: 14px 20px;
-  border: 2px solid rgba(102, 126, 234, 0.2);
-  border-radius: 25px;
+  padding: 16px 24px;
+  border: 2px solid rgba(168, 85, 247, 0.15);
+  border-radius: 30px;
   font-size: 15px;
   outline: none;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.95);
   font-weight: 400;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.05);
 }
 
 .message-input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  transform: translateY(-1px);
+  border-color: #a855f7;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15), 0 4px 12px rgba(168, 85, 247, 0.2);
+  transform: translateY(-2px);
+  background: #ffffff;
 }
 
 .message-input:disabled {
@@ -252,17 +210,18 @@ body {
 }
 
 .send-button {
-  padding: 14px 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
 }
 
 .send-button::before {
@@ -277,8 +236,9 @@ body {
 }
 
 .send-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
 }
 
 .send-button:hover:not(:disabled)::before {
@@ -297,20 +257,21 @@ body {
 }
 
 .app-footer {
-  background: rgba(255, 255, 255, 0.98);
-  padding: 16px 24px;
+  background: linear-gradient(180deg, rgba(250, 245, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+  padding: 20px 24px;
   text-align: center;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  box-shadow: 0 -4px 20px rgba(138, 43, 226, 0.05);
+  backdrop-filter: blur(20px);
+  border-top: 2px solid rgba(168, 85, 247, 0.08);
 }
 
 .disclaimer {
   font-size: 13px;
-  color: #718096;
+  color: #8b5cf6;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 400;
+  opacity: 0.7;
 }
 
 /* Responsive sizing */
@@ -319,6 +280,7 @@ body {
     max-width: 100%;
     height: 100vh;
     border-radius: 0;
+    box-shadow: none;
   }
 
   .header {
@@ -330,20 +292,7 @@ body {
     font-size: 28px;
   }
 
-  .blob-stack {
-    width: 200px;
-    height: 200px;
-  }
-
-  .blob-glow {
-    width: 240px;
-    height: 240px;
-  }
-
-  .blob {
-    width: 200px;
-    height: 200px;
-  }
+  /* Blob responsive styles are now in BlobSVG.css */
 
   .messages {
     padding: 20px 16px;
@@ -379,20 +328,7 @@ body {
     font-size: 14px;
   }
 
-  .blob-stack {
-    width: 160px;
-    height: 160px;
-  }
-
-  .blob-glow {
-    width: 200px;
-    height: 200px;
-  }
-
-  .blob {
-    width: 160px;
-    height: 160px;
-  }
+  /* Blob responsive styles are now in BlobSVG.css */
 
   .messages {
     padding: 16px 12px;

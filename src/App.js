@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import ChatMessage from './components/ChatMessage';
 import TypingIndicator from './components/TypingIndicator';
+import BlobSVG from './components/BlobSVG';
 
 function App() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi there 💙 I'm Maie, your supportive wellness guide. I'm here to listen and support you. Whether you're having a tough day or just need to talk, I'm here. How are you feeling today?"
+      content: "Hi there 💙 I'm Luma, your supportive wellness guide. I'm here to listen and support you. Whether you're having a tough day or just need to talk, I'm here. How are you feeling today?"
     }
   ]);
   const [input, setInput] = useState('');
@@ -73,9 +74,12 @@ function App() {
     setIsLoading(true);
 
     try {
-      // NEW: Create a clean messages array for the API
-      // This only sends the chat history, not the initial prompt object.
-      const apiMessages = newMessages.slice(1).map(msg => ({
+      // MVP Cost Control: Limit conversation history to last 8 messages (sliding window)
+      // This prevents costs from growing with long conversations
+      const recentMessages = newMessages.slice(1).slice(-8); // Get last 8 messages (excluding initial prompt)
+      
+      // Create a clean messages array for the API
+      const apiMessages = recentMessages.map(msg => ({
         role: msg.role === 'assistant' ? 'assistant' : 'user',
         content: msg.content
       }));
@@ -91,12 +95,15 @@ function App() {
           // Make sure your /api/chat route can read this property.
           model: "claude-sonnet-4-5-20250929",
 
-          // UPDATED: Send the new clean message history
+          // MVP Cost Control: Limit output tokens to 400 (sweet spot for thoughtful but concise responses)
+          max_tokens: 400,
+
+          // UPDATED: Send the new clean message history (limited to last 8 messages)
           messages: apiMessages,
 
           // --- UPDATED: Robust System Prompt ---
           // This is the "Friendly Guide" prompt with all the new rules.
-          system: `You are "Maie," a supportive and friendly wellness guide. Your persona is that of a warm, non-judgmental, and relatable mentor or older sibling. You are empathetic, a great listener, and use a friendly, modern tone (use emojis where appropriate).
+          system: `You are "Luma," a supportive and friendly wellness guide. Your persona is that of a warm, non-judgmental, and relatable mentor or older sibling. You are empathetic, a great listener, and use a friendly, modern tone (use emojis where appropriate).
 
 --- IMPORTANT: KEEP RESPONSES CONCISE ---
 Keep your responses brief and to the point (2-4 sentences max). Be warm but efficient. Long responses are not needed.
@@ -163,24 +170,12 @@ These rules are the most important part of your design.
   return (
     <div className="page">
       <header className="header">
-        <div
-          className="blob-stack"
+        <BlobSVG
+          blinking={blinking}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-        >
-          <div className="blob-glow"></div>
-          <img
-            src="/blob.png.png"
-            alt="blob"
-            className={`blob ${blinking ? "fade-out" : ""}`}
-          />
-          <img
-            src="/blob-blink.png"
-            alt="blob blink"
-            className={`blob blink ${blinking ? "fade-in" : ""}`}
-          />
-        </div>
-        <h1>💙 Your Companion</h1>
+        />
+        <h1>💙 Luma</h1>
         <p className="tagline">A safe space to talk</p>
       </header>
 
@@ -201,7 +196,7 @@ These rules are the most important part of your design.
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage(e)}
-              placeholder="Type your message... (Press Enter to send)"
+              placeholder="Share what's on your mind... 💭"
               disabled={isLoading}
               className="message-input"
               maxLength={1000}
